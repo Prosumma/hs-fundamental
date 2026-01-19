@@ -1,4 +1,4 @@
-cabal-version: 2.2
+cabal-version: 1.12
 
 -- This file has been generated from package.yaml by hpack version 0.38.1.
 --
@@ -7,12 +7,12 @@ cabal-version: 2.2
 name:           fundamental
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/fundamental#readme>
-homepage:       https://github.com/githubuser/fundamental#readme
-bug-reports:    https://github.com/githubuser/fundamental/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2026 Author name here
-license:        BSD-3-Clause
+homepage:       https://github.com/prosumma/hs-fundamental#readme
+bug-reports:    https://github.com/prosumma/hs-fundamental/issues
+author:         Gregory Higley
+maintainer:     greg@prosumma.com
+copyright:      2026 Prosumma / Gregory Higley
+license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
@@ -21,34 +21,36 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/fundamental
+  location: https://github.com/prosumma/hs-fundamental
 
 library
   exposed-modules:
       Lib
   other-modules:
       Paths_fundamental
-  autogen-modules:
-      Paths_fundamental
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  default-extensions:
+      NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
+    , rio
   default-language: Haskell2010
 
 executable fundamental-exe
   main-is: Main.hs
   other-modules:
       Paths_fundamental
-  autogen-modules:
-      Paths_fundamental
   hs-source-dirs:
       app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  default-extensions:
+      NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , fundamental
+    , rio
   default-language: Haskell2010
 
 test-suite fundamental-test
@@ -56,12 +58,13 @@ test-suite fundamental-test
   main-is: Spec.hs
   other-modules:
       Paths_fundamental
-  autogen-modules:
-      Paths_fundamental
   hs-source-dirs:
       test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  default-extensions:
+      NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , fundamental
+    , rio
   default-language: Haskell2010
