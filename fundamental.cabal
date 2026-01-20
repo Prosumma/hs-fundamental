@@ -36,6 +36,10 @@ library
   build-depends:
       base >=4.7 && <5
     , rio
+    , servant-auth
+    , servant-auth-server
+    , servant-client
+    , servant-server
   default-language: Haskell2010
 
 executable fundamental-exe
@@ -51,6 +55,10 @@ executable fundamental-exe
       base >=4.7 && <5
     , fundamental
     , rio
+    , servant-auth
+    , servant-auth-server
+    , servant-client
+    , servant-server
   default-language: Haskell2010
 
 test-suite fundamental-test
@@ -67,4 +75,8 @@ test-suite fundamental-test
       base >=4.7 && <5
     , fundamental
     , rio
+    , servant-auth
+    , servant-auth-server
+    , servant-client
+    , servant-server
   default-language: Haskell2010
