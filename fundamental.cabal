@@ -25,18 +25,31 @@ source-repository head
 
 library
   exposed-modules:
+      Fundamental.Exceptions
       Lib
   other-modules:
       Paths_fundamental
   hs-source-dirs:
       src
   default-extensions:
+      DataKinds
+      FlexibleInstances
+      FunctionalDependencies
+      GeneralizedNewtypeDeriving
+      MultiParamTypeClasses
+      NamedFieldPuns
       NoImplicitPrelude
+      OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
+      TypeApplications
+      TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
     , generic-lens
     , lens
+    , mtl
     , rio
     , servant-auth
     , servant-auth-server
@@ -51,13 +64,25 @@ executable fundamental-exe
   hs-source-dirs:
       app
   default-extensions:
+      DataKinds
+      FlexibleInstances
+      FunctionalDependencies
+      GeneralizedNewtypeDeriving
+      MultiParamTypeClasses
+      NamedFieldPuns
       NoImplicitPrelude
+      OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
+      TypeApplications
+      TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , fundamental
     , generic-lens
     , lens
+    , mtl
     , rio
     , servant-auth
     , servant-auth-server
@@ -73,13 +98,25 @@ test-suite fundamental-test
   hs-source-dirs:
       test
   default-extensions:
+      DataKinds
+      FlexibleInstances
+      FunctionalDependencies
+      GeneralizedNewtypeDeriving
+      MultiParamTypeClasses
+      NamedFieldPuns
       NoImplicitPrelude
+      OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
+      TypeApplications
+      TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , fundamental
     , generic-lens
     , lens
+    , mtl
     , rio
     , servant-auth
     , servant-auth-server

@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - generic-lens
 - lens
+- mtl
 - rio
 - servant-auth
 - servant-auth-server
@@ -30,7 +31,18 @@ dependencies:
 - servant-server
 
 default-extensions:
+- DataKinds
+- FlexibleInstances
+- FunctionalDependencies
+- GeneralizedNewtypeDeriving
+- MultiParamTypeClasses
+- NamedFieldPuns
 - NoImplicitPrelude
+- OverloadedStrings
+- RecordWildCards
+- ScopedTypeVariables
+- TypeApplications
+- TypeSynonymInstances
 
 ghc-options:
 - -Wall
