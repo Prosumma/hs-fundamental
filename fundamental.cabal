@@ -35,6 +35,8 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
+    , generic-lens
+    , lens
     , rio
     , servant-auth
     , servant-auth-server
@@ -54,6 +56,8 @@ executable fundamental-exe
   build-depends:
       base >=4.7 && <5
     , fundamental
+    , generic-lens
+    , lens
     , rio
     , servant-auth
     , servant-auth-server
@@ -74,6 +78,8 @@ test-suite fundamental-test
   build-depends:
       base >=4.7 && <5
     , fundamental
+    , generic-lens
+    , lens
     , rio
     , servant-auth
     , servant-auth-server
