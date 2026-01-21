@@ -33,7 +33,6 @@ library
       Fundamental.Servant
       Fundamental.Textual
       Fundamental.Util
-      Lib
   other-modules:
       Paths_fundamental
   hs-source-dirs:

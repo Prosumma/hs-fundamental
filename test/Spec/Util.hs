@@ -40,14 +40,6 @@ testUtil = do
       let something = Something 2 [Just 4]
       something^.xL `shouldBe` 2
       something^..xsL.each._Just `shouldBe` [4]
-  describe "<<$>>" $
-    it "fmaps fmap" $ do
-      let x = Just (Just 3)
-      (*2) <<$>> x `shouldBe` Just (Just 6)
-  describe "<<&>>" $
-    it "fmaps fmap, but flipped" $ do
-      let x = Just (Just 3)
-      (x <<&>> (*7)) `shouldBe` Just (Just 21)
   describe "uformat" $
     it "formats a RIO Utf8Builder" $ do
       let u = uformat ("The value of " % F.text % " is " % F.int % ".") "three" 3
