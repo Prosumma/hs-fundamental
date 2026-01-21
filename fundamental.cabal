@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      Fundamental
       Fundamental.Exceptions
       Fundamental.PG
       Fundamental.PG.QueryRunner
