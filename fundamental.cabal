@@ -33,6 +33,7 @@ library
       src
   default-extensions:
       DataKinds
+      FlexibleContexts
       FlexibleInstances
       FunctionalDependencies
       GeneralizedNewtypeDeriving
@@ -65,6 +66,7 @@ executable fundamental-exe
       app
   default-extensions:
       DataKinds
+      FlexibleContexts
       FlexibleInstances
       FunctionalDependencies
       GeneralizedNewtypeDeriving
@@ -99,6 +101,7 @@ test-suite fundamental-test
       test
   default-extensions:
       DataKinds
+      FlexibleContexts
       FlexibleInstances
       FunctionalDependencies
       GeneralizedNewtypeDeriving
