@@ -1,4 +1,4 @@
-{-# LANGUAGE DataKinds, FlexibleContexts, KindSignatures, RankNTypes, TypeOperators #-}
+{-# LANGUAGE KindSignatures, RankNTypes, TypeOperators #-}
 
 module Fundamental.Servant (
   defaultExceptionHandler,
