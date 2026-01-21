@@ -26,6 +26,11 @@ source-repository head
 library
   exposed-modules:
       Fundamental.Exceptions
+      Fundamental.PG
+      Fundamental.PG.QueryRunner
+      Fundamental.Pool
+      Fundamental.Textual
+      Fundamental.Util
       Lib
   other-modules:
       Paths_fundamental
@@ -47,15 +52,26 @@ library
       TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , attoparsec
+    , base >=4.7 && <5
+    , composition-prelude
+    , extra
+    , formatting
     , generic-lens
     , lens
+    , listsafe
     , mtl
+    , postgresql-simple
+    , resource-pool
     , rio
     , servant-auth
     , servant-auth-server
     , servant-client
     , servant-server
+    , string-conversions
+    , template-haskell
+    , text
   default-language: Haskell2010
 
 executable fundamental-exe
@@ -80,16 +96,27 @@ executable fundamental-exe
       TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , attoparsec
+    , base >=4.7 && <5
+    , composition-prelude
+    , extra
+    , formatting
     , fundamental
     , generic-lens
     , lens
+    , listsafe
     , mtl
+    , postgresql-simple
+    , resource-pool
     , rio
     , servant-auth
     , servant-auth-server
     , servant-client
     , servant-server
+    , string-conversions
+    , template-haskell
+    , text
   default-language: Haskell2010
 
 test-suite fundamental-test
@@ -115,14 +142,25 @@ test-suite fundamental-test
       TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , attoparsec
+    , base >=4.7 && <5
+    , composition-prelude
+    , extra
+    , formatting
     , fundamental
     , generic-lens
     , lens
+    , listsafe
     , mtl
+    , postgresql-simple
+    , resource-pool
     , rio
     , servant-auth
     , servant-auth-server
     , servant-client
     , servant-server
+    , string-conversions
+    , template-haskell
+    , text
   default-language: Haskell2010

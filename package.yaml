@@ -20,15 +20,26 @@ extra-source-files:
 description:         Please see the README on GitHub at <https://github.com/githubuser/fundamental#readme>
 
 dependencies:
+- aeson
+- attoparsec
 - base >= 4.7 && < 5
+- composition-prelude
+- extra
+- formatting
 - generic-lens
 - lens
+- listsafe
 - mtl
+- postgresql-simple
+- resource-pool
 - rio
 - servant-auth
 - servant-auth-server
 - servant-client
 - servant-server
+- string-conversions
+- template-haskell
+- text
 
 default-extensions:
 - DataKinds
