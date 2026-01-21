@@ -21,8 +21,8 @@ import Data.String.Conversions
 import Data.Text.Read
 import Database.PostgreSQL.Simple.FromField hiding (format)
 import Database.PostgreSQL.Simple.ToField
+import Fundamental.Util (hush)
 import Formatting
-import Fundamental.Util
 import RIO hiding (Reader)
 import RIO.Partial
 import RIO.Text
@@ -33,13 +33,13 @@ import qualified Data.Attoparsec.Text as Atto
 
 class FromText a where
   fromText :: Text -> Maybe a
-  
+
 class ToText a where
   toText :: a -> Text
 
 instance FromText Text where
   fromText = Just
-  
+
 instance ToText Text where
   toText = id
 
@@ -48,16 +48,16 @@ instance FromText ByteString where
 
 instance ToText ByteString where
   toText = convertString
-  
+
 instance FromText Int where
   fromText = fromTextReader decimal
-  
+
 instance ToText Int where
   toText = pack . show
 
 instance FromText Integer where
   fromText = fromTextReader decimal
-  
+
 instance ToText Integer where
   toText = pack . show
 
@@ -70,13 +70,13 @@ instance ToText Double where
 -- | Unsafely converts from `Text` to a `Textual`.
 --
 -- Causes a runtime error if conversion is invalid.
--- Use this only if you're very sure that the `Text` 
+-- Use this only if you're very sure that the `Text`
 -- is valid for the target `Textual`.
 unsafeFromText :: FromText a => Text -> a
 unsafeFromText = fromJust . fromText
 
 -- | Helper to implement `FromText`'s `fromText` using an Attoparsec parser.
-parseTextual :: Atto.Parser a -> Text -> Maybe a 
+parseTextual :: Atto.Parser a -> Text -> Maybe a
 parseTextual parser source = hush $ parseOnly (parser <* endOfInput) source
 
 -- | Helper to implement `FromField`'s `fromField` for a `Textual`.
@@ -88,7 +88,7 @@ fromFieldTextual name field mdata = do
   text <- fromField field mdata
   case fromText text of
     Just value -> return value
-    Nothing -> returnError ConversionFailed field $ printf "'%s' is not a valid %s." text name 
+    Nothing -> returnError ConversionFailed field $ printf "'%s' is not a valid %s." text name
 
 -- | Helper to implement `ToField`'s `toField` for a `Textual`.
 toFieldTextual :: ToText a => a -> Action
@@ -105,8 +105,8 @@ parseJSONTextual name (String text) = case fromText text of
 parseJSONTextual name invalid = typeMismatch name invalid
 
 -- | Helper to convert a `Textual` to JSON.
-toJSONTextual :: ToText a => a -> Value 
-toJSONTextual = toJSON . toText 
+toJSONTextual :: ToText a => a -> Value
+toJSONTextual = toJSON . toText
 
 -- | Helper to implement `IsString`'s `fromString` for a `Textual`.
 --
@@ -134,8 +134,11 @@ readTextual = readS_to_Prec $ const $ \input -> do
     Just thing -> [(thing, "")]
     Nothing -> []
 
--- | Implements `parseUrlPiece` in terms of 'Textual'. 
+-- | Implements `parseUrlPiece` in terms of 'Textual'.
 parseUrlPieceTextual :: FromText a => Text -> Text -> Either Text a
 parseUrlPieceTextual name text = maybeToEither err $ fromText text
   where
     err = convertString $ sformat ("'" % stext % "' is not a valid " % stext % ".") text name
+
+fromTextReader :: Reader a -> Text -> Maybe a
+fromTextReader reader text = hush (reader text) <&> fst

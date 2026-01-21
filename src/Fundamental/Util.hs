@@ -5,7 +5,6 @@ module Fundamental.Util (
   addSuffix,
   displayText,
   extractKeys,
-  fromTextReader,
   hush,
   makeLensesL,
   makeLensesWith,
@@ -22,7 +21,6 @@ module Fundamental.Util (
 import Control.Lens hiding ((??), (.~), (.=))
 import Data.Char
 import Data.Either.Extra
-import Data.Text.Read
 import Data.Foldable
 import Formatting
 import Language.Haskell.TH
@@ -68,9 +66,6 @@ whenNothing cond action = maybe action pure cond
 
 whenNothingM :: Monad m => m (Maybe a) -> m a -> m a
 whenNothingM cond action = cond >>= maybe action return
-
-fromTextReader :: Reader a -> Text -> Maybe a
-fromTextReader reader text = hush (reader text) <&> fst
 
 -- | Shortcut to create a pair.
 (<->) :: a -> b -> (a, b)
