@@ -1,5 +1,7 @@
-import Prelude (putStrLn)
 import RIO
+import Spec.Util
+import Test.Hspec
 
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = hspec $ do
+    testUtil

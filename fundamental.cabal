@@ -125,6 +125,7 @@ test-suite fundamental-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Spec.Util
       Paths_fundamental
   hs-source-dirs:
       test
