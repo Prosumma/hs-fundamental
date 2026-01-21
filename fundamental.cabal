@@ -48,6 +48,7 @@ library
       OverloadedStrings
       RecordWildCards
       ScopedTypeVariables
+      TupleSections
       TypeApplications
       TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints
@@ -92,6 +93,7 @@ executable fundamental-exe
       OverloadedStrings
       RecordWildCards
       ScopedTypeVariables
+      TupleSections
       TypeApplications
       TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
@@ -138,6 +140,7 @@ test-suite fundamental-test
       OverloadedStrings
       RecordWildCards
       ScopedTypeVariables
+      TupleSections
       TypeApplications
       TypeSynonymInstances
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wno-name-shadowing -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
@@ -150,6 +153,8 @@ test-suite fundamental-test
     , formatting
     , fundamental
     , generic-lens
+    , hspec
+    , hspec-expectations
     , lens
     , listsafe
     , mtl

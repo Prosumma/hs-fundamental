@@ -53,6 +53,7 @@ default-extensions:
 - OverloadedStrings
 - RecordWildCards
 - ScopedTypeVariables
+- TupleSections
 - TypeApplications
 - TypeSynonymInstances
 
@@ -92,3 +93,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - fundamental
+    - hspec
+    - hspec-expectations
