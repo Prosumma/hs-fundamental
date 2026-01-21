@@ -1,3 +1,4 @@
+import Prelude (putStrLn)
 import RIO
 
 main :: IO ()
