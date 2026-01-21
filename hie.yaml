@@ -1,2 +1,19 @@
 cradle:
-  stack: {}
+  multi:
+    - path: "./src"
+      config:
+        cradle:
+          stack:
+            component: "fundamental:lib"
+
+    - path: "./app"
+      config:
+        cradle:
+          stack:
+            component: "fundamental:exe:fundamental-exe"
+
+    - path: "./test"
+      config:
+        cradle:
+          stack:
+            component: "fundamental:test:fundamental-test"
