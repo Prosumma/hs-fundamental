@@ -33,6 +33,9 @@ library
       Fundamental.Servant
       Fundamental.Textual
       Fundamental.Util
+      Fundamental.Util.Control
+      Fundamental.Util.Formatting
+      Fundamental.Util.TH
   other-modules:
       Paths_fundamental
   hs-source-dirs:

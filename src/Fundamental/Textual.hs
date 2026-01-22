@@ -21,7 +21,7 @@ import Data.String.Conversions
 import Data.Text.Read
 import Database.PostgreSQL.Simple.FromField hiding (format)
 import Database.PostgreSQL.Simple.ToField
-import Fundamental.Util (hush)
+import Fundamental.Util.Control
 import Formatting
 import RIO hiding (Reader)
 import RIO.Partial
