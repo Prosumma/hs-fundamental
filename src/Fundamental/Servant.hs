@@ -14,7 +14,7 @@ module Fundamental.Servant (
 
 import Control.Monad.Error.Class
 import Data.Kind
-import Fundamental.Util.Control
+import Fundamental.Control
 import RIO hiding (Handler)
 import Servant
 

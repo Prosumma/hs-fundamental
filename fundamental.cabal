@@ -26,16 +26,16 @@ source-repository head
 library
   exposed-modules:
       Fundamental
+      Fundamental.Control
       Fundamental.Exceptions
+      Fundamental.Formatting
+      Fundamental.Operators
       Fundamental.PG
       Fundamental.PG.QueryRunner
       Fundamental.Pool
       Fundamental.Servant
       Fundamental.Textual
-      Fundamental.Util
-      Fundamental.Util.Control
-      Fundamental.Util.Formatting
-      Fundamental.Util.TH
+      Fundamental.TH
   other-modules:
       Paths_fundamental
   hs-source-dirs:
