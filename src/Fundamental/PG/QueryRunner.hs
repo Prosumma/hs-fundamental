@@ -1,21 +1,21 @@
 {-# LANGUAGE GADTs #-}
 
-module Fundamental.PG.QueryRunner (
-  ConnectionPool,
-  QueryRunner(..),
-  SQLQuery(..),
-  TransactionRunner(..)
-) where
+module Fundamental.PG.QueryRunner
+  ( ConnectionPool,
+    QueryRunner (..),
+    SQLQuery (..),
+    TransactionRunner (..),
+  )
+where
 
-import Database.PostgreSQL.Simple (formatQuery, Connection)
+import Database.PostgreSQL.Simple (Connection, formatQuery)
+import qualified Database.PostgreSQL.Simple as PG
 import Database.PostgreSQL.Simple.FromRow
 import Database.PostgreSQL.Simple.ToRow
 import Database.PostgreSQL.Simple.Types
 import Fundamental.Pool
 import Fundamental.Textual
 import RIO hiding (log)
-
-import qualified Database.PostgreSQL.Simple as PG
 
 logSource :: LogSource
 logSource = "SQL"
@@ -26,11 +26,11 @@ formatSQLQuery conn (ParameterizedSQLQuery sql q) = toText <$> formatQuery conn 
 
 data SQLQuery where
   SQLQuery :: Query -> SQLQuery
-  ParameterizedSQLQuery :: ToRow q => Query -> q -> SQLQuery
+  ParameterizedSQLQuery :: (ToRow q) => Query -> q -> SQLQuery
 
 -- | A type which can invoke SQL queries.
 class QueryRunner c where
-  execute :: (MonadReader env m, HasLogFunc env, MonadUnliftIO m) => SQLQuery -> c -> m Int64 
+  execute :: (MonadReader env m, HasLogFunc env, MonadUnliftIO m) => SQLQuery -> c -> m Int64
   query :: (MonadReader env m, HasLogFunc env, MonadUnliftIO m, FromRow r) => SQLQuery -> c -> m [r]
 
 log :: (MonadReader env m, HasLogFunc env, MonadIO m) => Connection -> SQLQuery -> m ()
@@ -59,12 +59,12 @@ instance QueryRunner Connection where
 --
 -- > withResource pool $ \conn -> do
 -- >  runRIO (PG conn logFunc) $
--- >    withTransaction $ void $ execute "DELETE FROM foo" 
+-- >    withTransaction $ void $ execute "DELETE FROM foo"
 --
 -- This example uses @withTransaction@ which is implemented in terms of
 -- @TransactionRunner@.
 class TransactionRunner c where
-  transact :: MonadUnliftIO m => c -> m a -> m a
+  transact :: (MonadUnliftIO m) => c -> m a -> m a
 
 instance TransactionRunner Connection where
   transact conn action = withRunInIO $ \runInIO -> PG.withTransaction conn (runInIO action)
@@ -72,5 +72,5 @@ instance TransactionRunner Connection where
 type ConnectionPool = Pool Connection
 
 instance QueryRunner ConnectionPool where
-  execute sql pool = withResource pool (execute sql) 
+  execute sql pool = withResource pool (execute sql)
   query sql pool = withResource pool (query sql)

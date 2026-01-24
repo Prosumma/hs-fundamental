@@ -1,10 +1,11 @@
-module Fundamental.Control (
-    hush,
+module Fundamental.Control
+  ( hush,
     om,
     whenNothing,
     whenNothingM,
     (>>=>),
-) where
+  )
+where
 
 import Data.Either.Extra
 import RIO
@@ -12,10 +13,10 @@ import RIO
 hush :: Either e a -> Maybe a
 hush = eitherToMaybe
 
-whenNothing :: Applicative f => Maybe a -> f a -> f a
+whenNothing :: (Applicative f) => Maybe a -> f a -> f a
 whenNothing cond action = maybe action pure cond
 
-whenNothingM :: Monad m => m (Maybe a) -> m a -> m a
+whenNothingM :: (Monad m) => m (Maybe a) -> m a -> m a
 whenNothingM cond action = cond >>= maybe action return
 
 -- | The @om@ combinator from `Control.Monad.Extra`.
@@ -33,7 +34,7 @@ whenNothingM cond action = cond >>= maybe action return
 --
 -- However, in most cases it's easier to use @>>=>@,
 -- the flipped, infix version of @om@.
-om :: Monad m => (a -> b -> m c) -> m a -> b -> m c
+om :: (Monad m) => (a -> b -> m c) -> m a -> b -> m c
 om f a = (a >>=) . flip f
 
 -- | Flipped version of 'om' as an operator.
@@ -49,7 +50,7 @@ om f a = (a >>=) . flip f
 --
 -- > foo :: a -> RIO Bar b
 -- > foo = ask >>=> baz
-(>>=>) :: Monad m => m a -> (a -> b -> m c) -> b -> m c
+(>>=>) :: (Monad m) => m a -> (a -> b -> m c) -> b -> m c
 (>>=>) = flip om
 
 infixl 1 >>=>

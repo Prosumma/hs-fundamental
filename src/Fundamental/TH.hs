@@ -1,10 +1,11 @@
-module Fundamental.TH (
-    addL,
+module Fundamental.TH
+  ( addL,
     addSuffix,
     makeLensesL,
-) where
+  )
+where
 
-import Control.Lens hiding ((??), (.~), (.=))
+import Control.Lens hiding ((.=), (.~), (??))
 import Data.Char
 import Language.Haskell.TH
 import RIO
@@ -12,7 +13,7 @@ import RIO
 addL :: LensRules
 addL = addSuffix "L"
 
-addSuffix ::  String -> LensRules
+addSuffix :: String -> LensRules
 addSuffix suffix = defaultFieldRules & lensField .~ suffixFieldNamer suffix
   where
     suffixFieldNamer :: String -> FieldNamer
@@ -24,9 +25,9 @@ addSuffix suffix = defaultFieldRules & lensField .~ suffixFieldNamer suffix
       let cls = "Lens" ++ capitalize fieldPart ++ suffix
       return (MethodName (mkName cls) (mkName (stripUnderscore fieldPart ++ suffix)))
     capitalize [] = []
-    capitalize (c:cs) = toUpper c : cs
+    capitalize (c : cs) = toUpper c : cs
     stripUnderscore [] = []
-    stripUnderscore s@(c:cs)
+    stripUnderscore s@(c : cs)
       | c == '_' = cs
       | otherwise = s
 

@@ -1,34 +1,38 @@
-{-# LANGUAGE DataKinds, FlexibleContexts, TypeApplications #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE TypeApplications #-}
 
-module Fundamental.Exceptions (
-  HelpMatchException,
-  HTTPStatusException(..),
-  MatchException,
-  catchLog,
-  catchMatch,
-  eitherThrowError,
-  eitherThrowIO,
-  eitherThrowM,
-  isException,
-  matchAll,
-  matchException,
-  maybeThrowError,
-  maybeThrowIO,
-  maybeThrowM,
-  throwMatch,
-  throwOnHttpStatusError,
-  throwOnHttpStatusOutsideRange,
-  throwWhen,
-) where
+module Fundamental.Exceptions
+  ( HelpMatchException,
+    HTTPStatusException (..),
+    MatchException,
+    catchLog,
+    catchMatch,
+    eitherThrowError,
+    eitherThrowIO,
+    eitherThrowM,
+    isException,
+    matchAll,
+    matchException,
+    maybeThrowError,
+    maybeThrowIO,
+    maybeThrowM,
+    throwMatch,
+    throwOnHttpStatusError,
+    throwOnHttpStatusOutsideRange,
+    throwWhen,
+  )
+where
 
 import Control.Monad.Error.Class
 import Data.Generics.Product.Fields
 import RIO
 
-isException :: forall e. Exception e => Proxy e -> SomeException -> Bool
+isException :: forall e. (Exception e) => Proxy e -> SomeException -> Bool
 isException _ ex = isJust (fromException ex :: Maybe e)
 
 type MatchException original matched = original -> Either matched original
+
 type HelpMatchException original matched = matched -> MatchException original matched
 
 -- | Attempts to match `SomeException` to the type of `original`.
@@ -39,13 +43,13 @@ type HelpMatchException original matched = matched -> MatchException original ma
 -- to the next handler. Handlers are typically stitched together using `>=>`:
 --
 -- > matchSqlState :: ByteString -> ServerError -> MatchException SqlError ServerError
--- > matchSqlState code = throwWhen $ \sqe -> sqlState sqe == code 
+-- > matchSqlState code = throwWhen $ \sqe -> sqlState sqe == code
 -- >
--- > matchNoApp :: MatchException SqlError ServerError 
--- > matchNoApp = matchSqlState "NOAPP" err404 { errReasonPhrase = "The specified app does not exist." } 
+-- > matchNoApp :: MatchException SqlError ServerError
+-- > matchNoApp = matchSqlState "NOAPP" err404 { errReasonPhrase = "The specified app does not exist." }
 -- >
 -- > matchNoUsr :: MatchException SqlError ServerError
--- > matchNoUsr = matchSqlState "NOUSR" err404 { errReasonPhrase = "The specified user does not exist." }  
+-- > matchNoUsr = matchSqlState "NOUSR" err404 { errReasonPhrase = "The specified user does not exist." }
 -- >
 -- > matchException (matchNoApp >=> matchNoUsr)
 matchException :: (Exception original, Exception matched) => MatchException original matched -> MatchException SomeException SomeException
@@ -54,18 +58,18 @@ matchException handler original = case fromException original of
   Just e -> bimap toException toException $ handler e
 
 -- | A combinator useful for building `MatchException`s.
--- 
+--
 -- > matchSqlState :: ByteString -> ServerError -> MatchException SqlError ServerError
 -- > matchSqlState code = throwWhen $ \sqe -> sqlState sqe == code
 throwWhen :: (original -> Bool) -> HelpMatchException original matched
 throwWhen cond matched original = if cond original then throwError matched else return original
 
--- | Used by `catchMatch` to attempt to match an exception. 
+-- | Used by `catchMatch` to attempt to match an exception.
 --
 -- `throwMatch` passes the original exception through the match chain, rethrowing the left-hand side if a match occurred
 -- or the right-hand side if no match occurred. A match chain typically consists of a series of `MatchException` instances
 -- joined by `>=>`.
-throwMatch :: MonadThrow m => MatchException SomeException SomeException -> SomeException -> m a
+throwMatch :: (MonadThrow m) => MatchException SomeException SomeException -> SomeException -> m a
 throwMatch match e = do
   case match e of
     Left e -> throwM e
@@ -86,22 +90,24 @@ catchMatch match action = catchAny action $ throwMatch match
 -- | Allows the specification of a fallback exception.
 --
 -- > matchAll (ServerError 500) >=> defaultExceptions
-matchAll :: Exception e => e -> MatchException SomeException SomeException
+matchAll :: (Exception e) => e -> MatchException SomeException SomeException
 matchAll = const . throwError . toException
 
 newtype HTTPStatusException = HTTPStatusException Int deriving (Eq, Show, Typeable)
+
 instance Exception HTTPStatusException
 
 -- | Throws an exception if the HTTP Status falls outside the given range, otherwise returns its last argument.
 throwOnHttpStatusOutsideRange :: (MonadThrow m, Exception e, HasField "httpStatus" r r Int Int) => [Int] -> (Int -> e) -> r -> m r
-throwOnHttpStatusOutsideRange range mkException response = let httpStatus = response^.(field @"httpStatus") in
-  if httpStatus `notElem` range
-    then throwM $ mkException httpStatus
-    else return response
+throwOnHttpStatusOutsideRange range mkException response =
+  let httpStatus = response ^. (field @"httpStatus")
+   in if httpStatus `notElem` range
+        then throwM $ mkException httpStatus
+        else return response
 
 -- | Throws an exception if the HTTP status falls outside the range 200..299.
 throwOnHttpStatusError :: (MonadThrow m, Exception e, HasField "httpStatus" r r Int Int) => (Int -> e) -> r -> m r
-throwOnHttpStatusError = throwOnHttpStatusOutsideRange [200..299]
+throwOnHttpStatusError = throwOnHttpStatusOutsideRange [200 .. 299]
 
 catchLog :: (MonadUnliftIO m, MonadReader env m, HasLogFunc env) => m a -> m a
 catchLog action = catchAny action $ \e -> logError (displayShow e) >> throwIO e
@@ -114,7 +120,7 @@ maybeThrowIO :: (Exception e, MonadIO m) => e -> Maybe a -> m a
 maybeThrowIO _ (Just a) = return a
 maybeThrowIO e Nothing = throwIO e
 
-maybeThrowError :: MonadError e m => e -> Maybe a -> m a
+maybeThrowError :: (MonadError e m) => e -> Maybe a -> m a
 maybeThrowError _ (Just a) = return a
 maybeThrowError e Nothing = throwError e
 
@@ -128,7 +134,7 @@ eitherThrowIO make ethr = case ethr of
   Right r -> return r
   Left l -> throwIO $ make l
 
-eitherThrowError :: MonadError e m => (l -> e) -> Either l r -> m r
+eitherThrowError :: (MonadError e m) => (l -> e) -> Either l r -> m r
 eitherThrowError make ethr = case ethr of
   Right r -> return r
   Left l -> throwError (make l)

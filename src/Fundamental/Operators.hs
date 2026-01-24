@@ -1,7 +1,8 @@
-module Fundamental.Operators (
-    (<#>),
+module Fundamental.Operators
+  ( (<#>),
     (<=>),
-) where
+  )
+where
 
 import RIO
 import RIO.Map (singleton)

@@ -1,13 +1,13 @@
-module Fundamental.Formatting (
-    displayText,
+module Fundamental.Formatting
+  ( displayText,
     uformat,
-) where
-
-import Formatting
-import RIO
+  )
+where
 
 import qualified Data.Text.Lazy as T
 import qualified Data.Text.Lazy.Builder as T
+import Formatting
+import RIO
 
 displayText :: Text -> Utf8Builder
 displayText = display
