@@ -12,9 +12,7 @@ import Fundamental.Formatting
 import Fundamental.Operators
 import Fundamental.TH
 import RIO
-import qualified RIO.HashMap as HashMap
 import RIO.Map (fromList)
-import qualified RIO.Set as Set
 import Test.Hspec
 
 data Something = Something
