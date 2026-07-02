@@ -30,7 +30,6 @@ dependencies:
 - lens
 - listsafe
 - mtl
-- postgresql-simple
 - resource-pool
 - rio
 - servant-auth

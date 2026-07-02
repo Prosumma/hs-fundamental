@@ -30,8 +30,6 @@ library
       Fundamental.Exceptions
       Fundamental.Formatting
       Fundamental.Operators
-      Fundamental.PG
-      Fundamental.PG.QueryRunner
       Fundamental.Pool
       Fundamental.Servant
       Fundamental.Textual
@@ -67,7 +65,6 @@ library
     , lens
     , listsafe
     , mtl
-    , postgresql-simple
     , resource-pool
     , rio
     , servant-auth
@@ -113,7 +110,6 @@ executable fundamental-exe
     , lens
     , listsafe
     , mtl
-    , postgresql-simple
     , resource-pool
     , rio
     , servant-auth
@@ -163,7 +159,6 @@ test-suite fundamental-test
     , lens
     , listsafe
     , mtl
-    , postgresql-simple
     , resource-pool
     , rio
     , servant-auth

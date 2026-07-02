@@ -1,13 +1,11 @@
 module Fundamental.Textual
-  ( fromFieldTextual,
-    fromStringTextual,
+  ( fromStringTextual,
     parseJSONTextual,
     parseUrlPieceTextual,
     parseTextual,
     readPrec,
     readTextual,
     showTextual,
-    toFieldTextual,
     toJSONTextual,
     unsafeFromText,
     FromText (..),
@@ -21,8 +19,6 @@ import qualified Data.Attoparsec.Text as Atto
 import Data.Either.Extra
 import Data.String.Conversions
 import Data.Text.Read
-import Database.PostgreSQL.Simple.FromField hiding (format)
-import Database.PostgreSQL.Simple.ToField
 import Formatting
 import Fundamental.Control
 import RIO hiding (Reader)
@@ -78,21 +74,6 @@ unsafeFromText = fromJust . fromText
 -- | Helper to implement `FromText`'s `fromText` using an Attoparsec parser.
 parseTextual :: Atto.Parser a -> Text -> Maybe a
 parseTextual parser source = hush $ parseOnly (parser <* endOfInput) source
-
--- | Helper to implement `FromField`'s `fromField` for a `Textual`.
---
--- > instance FromField Foo where
--- >  fromField = fromFieldTextual "Foo"
-fromFieldTextual :: (FromText a, Typeable a) => String -> FieldParser a
-fromFieldTextual name field mdata = do
-  text <- fromField field mdata
-  case fromText text of
-    Just value -> return value
-    Nothing -> returnError ConversionFailed field $ printf "'%s' is not a valid %s." text name
-
--- | Helper to implement `ToField`'s `toField` for a `Textual`.
-toFieldTextual :: (ToText a) => a -> Action
-toFieldTextual = toField . toText
 
 -- | Helper to parse from JSON to a `Textual` instance.
 --
